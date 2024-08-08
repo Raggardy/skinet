@@ -1,16 +1,13 @@
-﻿using Core.Entities;
+﻿
+using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
-using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
-{
-    [ApiController]
-    [Route("api/[controller]")]
+{   
 
-    public class ProductsController(IGenericRepository<Product> repo) : ControllerBase
+    public class ProductsController(IGenericRepository<Product> repo) : BaseApiController
     {
         
 
@@ -19,8 +16,7 @@ namespace API.Controllers
         {
             var spec = new ProductSpecification(specParams);
 
-            var products = await repo.ListAsync(spec);
-            return Ok(products); 
+            return await CreatePagedResult(repo, spec, specParams.PageIndex, specParams.PageSize);
         }
 
         [HttpGet("{id:int}")] // api/products/id

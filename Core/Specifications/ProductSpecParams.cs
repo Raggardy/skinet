@@ -2,7 +2,18 @@
 {
     public class ProductSpecParams
     {
+        private const int MaxPageSize = 20;
+        public int PageIndex { get; set; } = 1;
         private List<string> _brands = [];
+
+        private int _pageSize = 6;
+
+        public int PageSize
+        {
+            get => _pageSize;
+            set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
+        }
+
 
         public List<string> Brands
         {
@@ -24,6 +35,14 @@
                     StringSplitOptions.RemoveEmptyEntries)).ToList();
             }
         }
+        private string? _search;
+
+        public string Search
+        {
+            get => _search ?? "";
+            set => _search = value.ToLower();
+        }
+
         public string? Sort {  get; set; }  
     }
 
